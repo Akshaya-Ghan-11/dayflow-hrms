@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Leave{% endblock %}
+{% block page_title %}Leave / Time-Off{% endblock %}
+{% block content %}
+<h1 class="df-section-title">Leave / Time-Off</h1>
+<p class="df-section-subtitle">Apply for leave and track your requests.</p>
+
+<div class="row g-3">
+  <div class="col-md-5">
+    <div class="df-card h-100">
+      <div class="card-body">
+        <h5 class="mb-3">Apply for Leave</h5>
+        <form method="POST" action="{{ url_for('leave') }}">
+          <label class="form-label">Leave Type</label>
+          <select name="leave_type" class="form-select" required>
+            <option value="Paid">Paid</option>
+            <option value="Sick">Sick</option>
+            <option value="Unpaid">Unpaid</option>
+          </select>
+
+          <label class="form-label mt-3">Start Date</label>
+          <input type="date" name="start_date" class="form-control" required>
+
+          <label class="form-label mt-3">End Date</label>
+          <input type="date" name="end_date" class="form-control" required>
+
+          <label class="form-label mt-3">Remarks</label>
+          <textarea name="remarks" rows="3" class="form-control" placeholder="Reason for leave..."></textarea>
+
+          <button type="submit" class="btn btn-primary mt-3 w-100">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="df-card h-100">
+      <div class="card-body">
+        <h5 class="mb-3">My Requests</h5>
+        <div class="table-responsive">
+          <table class="table df-table mb-0">
+            <thead><tr><th>Type</th><th>From</th><th>To</th><th>Status</th><th>Comment</th></tr></thead>
+            <tbody>
+              {% for lv in my_leaves %}
+              <tr>
+                <td>{{ lv.leave_type }}</td>
+                <td>{{ lv.start_date }}</td>
+                <td>{{ lv.end_date }}</td>
+                <td>
+                  <span class="badge-soft badge-soft-{{ 'success' if lv.status=='Approved' else 'danger' if lv.status=='Rejected' else 'warning' }}">
+                    {{ lv.status }}
+                  </span>
+                </td>
+                <td class="df-muted small">{{ lv.admin_comment or '—' }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="5" class="text-center df-muted py-4">No leave requests yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

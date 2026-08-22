@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Payroll Management{% endblock %}
+{% block page_title %}Payroll Management{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard') }}" class="df-muted small d-inline-block mb-2"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<h1 class="df-section-title">Payroll Management</h1>
+
+<div class="df-card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>Employee</th><th>Basic</th><th>Bonus</th><th>Total</th><th></th></tr></thead>
+        <tbody>
+          {% for emp in employees %}
+          <tr>
+            <td>{{ emp.full_name }} <span class="df-muted small">(#{{ emp.employee_id }})</span></td>
+            <td>₹{{ '%.2f'|format(emp.basic_salary or 0) }}</td>
+            <td>₹{{ '%.2f'|format(emp.bonus or 0) }}</td>
+            <td class="df-fw-700">₹{{ '%.2f'|format(emp.total_salary or 0) }}</td>
+            <td class="text-end"><a href="{{ url_for('admin_edit_payroll', emp_id=emp.employee_id) }}" class="btn btn-sm btn-outline-primary">Edit</a></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="text-center df-muted py-4">No employees yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

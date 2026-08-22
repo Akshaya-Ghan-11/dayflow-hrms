@@ -1,0 +1,318 @@
+/* ==========================================================
+   Dayflow HRMS — Global Stylesheet
+   Bootstrap 5 theme override — Indigo/Blue SaaS style
+   ========================================================== */
+
+:root{
+  --bs-primary: #4f46e5;
+  --bs-primary-rgb: 79,70,229;
+  --bs-secondary: #64748b;
+  --df-indigo: #4f46e5;
+  --df-indigo-dark: #3730a3;
+  --df-blue: #2563eb;
+  --df-bg: #f4f6fb;
+  --df-sidebar-start: #1e1b4b;
+  --df-sidebar-end: #312e81;
+  --df-border: #e6e8f2;
+  --df-text: #1e2233;
+  --df-muted: #6b7280;
+  --df-sidebar-w: 250px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body{
+  background: var(--df-bg);
+  color: var(--df-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+h1,h2,h3,h4,h5{ font-weight: 700; letter-spacing: -0.01em; }
+
+a{ text-decoration: none; }
+
+/* ---------------------------------------------------------- */
+/* Layout: sidebar + topbar shell                              */
+/* ---------------------------------------------------------- */
+.df-shell{ display: flex; min-height: 100vh; }
+
+.df-sidebar{
+  width: var(--df-sidebar-w);
+  background: linear-gradient(180deg, var(--df-sidebar-start) 0%, var(--df-sidebar-end) 100%);
+  color: #cbd0f0;
+  flex-shrink: 0;
+}
+.df-sidebar .offcanvas-body{ display:flex; flex-direction:column; padding:0; }
+
+.df-brand{
+  display:flex; align-items:center; gap:.6rem;
+  padding: 1.35rem 1.25rem;
+  font-weight:800; font-size:1.2rem; color:#fff;
+}
+.df-brand-mark{
+  width:34px; height:34px; border-radius:10px; flex-shrink:0;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; color:#fff; font-size:.95rem;
+}
+
+.df-nav{ flex:1; padding: .5rem .9rem; overflow-y:auto; }
+.df-nav .nav-link{
+  display:flex; align-items:center; gap:.75rem;
+  color:#c3c8ee; font-weight:500; font-size:.92rem;
+  padding:.6rem .8rem; border-radius:.6rem; margin-bottom:.15rem;
+}
+.df-nav .nav-link i{ font-size:1.05rem; width:20px; text-align:center; }
+.df-nav .nav-link:hover{ background: rgba(255,255,255,.08); color:#fff; }
+.df-nav .nav-link.active{
+  background: rgba(255,255,255,.14);
+  color:#fff;
+  box-shadow: inset 3px 0 0 #6366f1;
+}
+.df-nav-section{
+  font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
+  color:#7c82b0; font-weight:700; margin: 1rem .9rem .35rem;
+}
+
+.df-sidebar-footer{
+  padding: 1rem 1.1rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display:flex; align-items:center; gap:.65rem;
+}
+.df-avatar{
+  width:38px; height:38px; border-radius:50%; flex-shrink:0;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  color:#fff; font-weight:700; font-size:.95rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.df-user-meta{ min-width:0; flex:1; }
+.df-user-meta .name{ font-size:.86rem; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.df-user-meta .role{ font-size:.72rem; color:#9aa0cf; }
+.df-logout-btn{ color:#c3c8ee; font-size:1.05rem; }
+.df-logout-btn:hover{ color:#f87171; }
+
+/* Main content column */
+.df-main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+
+/* Topbar */
+.df-topbar{
+  background:#fff; border-bottom:1px solid var(--df-border);
+  padding:.7rem 1.5rem; display:flex; align-items:center; gap:1rem;
+  position:sticky; top:0; z-index:1020;
+}
+.df-topbar .page-title{ font-weight:700; font-size:1.05rem; margin:0; }
+.df-topbar .btn-hamburger{ border:none; background:transparent; font-size:1.3rem; color:var(--df-text); }
+
+.df-content{ padding: 1.75rem; flex:1; }
+
+/* ---------------------------------------------------------- */
+/* Cards / stat cards / quick cards                            */
+/* ---------------------------------------------------------- */
+.df-card{
+  background:#fff; border:1px solid var(--df-border); border-radius:1rem;
+  box-shadow: 0 1px 2px rgba(16,24,40,.03);
+}
+.df-card .card-body{ padding: 1.5rem; }
+
+.df-stat-card{
+  background:#fff; border:1px solid var(--df-border); border-radius:1rem;
+  padding:1.35rem 1.5rem; height:100%;
+  display:flex; align-items:center; gap:1rem;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.df-stat-card:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.07); }
+.df-stat-icon{
+  width:46px; height:46px; border-radius:12px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+}
+.df-stat-value{ font-size:1.6rem; font-weight:800; line-height:1.1; }
+.df-stat-label{ font-size:.8rem; color:var(--df-muted); font-weight:500; }
+
+.df-quick-card{
+  display:block; background:#fff; border:1px solid var(--df-border); border-radius:1rem;
+  padding:1.35rem; color:var(--df-text); height:100%;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.df-quick-card:hover{ transform: translateY(-3px); box-shadow: 0 12px 28px rgba(16,24,40,.08); border-color:#c7d2fe; color:var(--df-text); }
+.df-quick-icon{
+  width:42px; height:42px; border-radius:11px; margin-bottom:.85rem;
+  display:flex; align-items:center; justify-content:center; font-size:1.15rem;
+  background: rgba(79,70,229,.1); color: var(--df-indigo);
+}
+.df-quick-card.danger .df-quick-icon{ background: rgba(240,68,56,.1); color:#dc2626; }
+.df-quick-title{ font-weight:700; font-size:.95rem; }
+.df-quick-desc{ font-size:.8rem; color: var(--df-muted); margin-top:.15rem; }
+
+/* ---------------------------------------------------------- */
+/* Tables & badges                                              */
+/* ---------------------------------------------------------- */
+.df-table thead th{
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;
+  color: var(--df-muted); font-weight:700; border-bottom-width:1px;
+  background:#f9fafc;
+}
+.df-table td{ vertical-align:middle; font-size:.88rem; }
+.df-table tbody tr:hover{ background:#f8f9ff; }
+
+.badge-soft-success{ background:#e7f9f1; color:#0f9d58; font-weight:600; }
+.badge-soft-danger{ background:#fdecea; color:#dc2626; font-weight:600; }
+.badge-soft-warning{ background:#fef3dc; color:#b45309; font-weight:600; }
+.badge-soft-info{ background:#eaf0ff; color:#3730a3; font-weight:600; }
+.badge-soft-secondary{ background:#f1f2f6; color:#6b7280; font-weight:600; }
+.badge-soft{ padding:.4em .75em; border-radius:50rem; font-size:.74rem; }
+
+/* ---------------------------------------------------------- */
+/* Day progress (attendance)                                    */
+/* ---------------------------------------------------------- */
+.df-progress{ height:12px; border-radius:50rem; background:#eef0f7; }
+.df-progress .progress-bar{
+  background: linear-gradient(90deg, var(--df-indigo-dark), var(--df-blue) 60%, #22d3ee);
+  border-radius: 50rem;
+}
+.df-week-strip{ display:flex; gap:.5rem; margin-top:1rem; }
+.df-week-day{
+  flex:1; text-align:center; padding:.6rem .25rem; border-radius:.6rem;
+  background:#f5f6fb; font-size:.72rem; color:var(--df-muted); font-weight:600;
+}
+.df-week-day .dot{ width:8px; height:8px; border-radius:50%; margin:0 auto .4rem; background:#d4d7e4; }
+.df-week-day.st-present .dot{ background:#0f9d58; }
+.df-week-day.st-absent .dot{ background:#dc2626; }
+.df-week-day.st-half-day .dot{ background:#b45309; }
+.df-week-day.st-leave .dot{ background:#3730a3; }
+
+/* ---------------------------------------------------------- */
+/* Auth pages — split screen (image left, form right)          */
+/* ---------------------------------------------------------- */
+.auth-split{ display:flex; min-height:100vh; }
+
+.auth-visual{
+  flex:1.25; position:relative; overflow:hidden;
+  background: url("../img/auth-bg.png") center/cover no-repeat, var(--df-sidebar-start);
+  display:flex; flex-direction:column; justify-content:center;
+  padding: 4rem 4.5rem;
+  color:#fff;
+}
+.auth-visual::before{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(14,10,40,.15) 0%, rgba(14,10,40,.65) 100%);
+}
+.auth-visual-inner{ position:relative; z-index:1; max-width:440px; }
+.auth-visual-logo{
+  width:64px; height:64px; border-radius:16px; margin-bottom:2rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+.auth-visual h2{ font-size:2.1rem; font-weight:800; line-height:1.2; margin-bottom:.75rem; color:#fff; }
+.auth-visual p.lead{ color:#d7dcff; font-size:1rem; line-height:1.55; }
+.auth-visual-badges{ display:flex; gap:.85rem; margin-top:2.25rem; flex-wrap:wrap; }
+.auth-visual-badge{
+  background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+  border-radius:.6rem; padding:.5rem .9rem; font-size:.8rem; color:#e8eaff;
+  display:flex; align-items:center; gap:.5rem; backdrop-filter: blur(6px);
+}
+
+.auth-form-panel{
+  flex:1; min-width:0; display:flex; align-items:center; justify-content:center;
+  background:#fff; padding:2.5rem 2rem;
+}
+.auth-form-card{ width:100%; max-width:380px; }
+.auth-form-card .mobile-logo{ display:none; }
+.auth-form-card h2{ font-size:1.6rem; font-weight:800; margin-bottom:.3rem; }
+.auth-form-card .subtitle-dark{ color:var(--df-muted); font-size:.9rem; margin-bottom:1.75rem; }
+.auth-form-card .form-label{ font-size:.82rem; font-weight:600; color:var(--df-text); }
+.auth-form-card .form-control, .auth-form-card .form-select{ border-radius:.6rem; padding:.65rem .85rem; }
+.auth-form-card .btn-df-primary{
+  width:100%; border:none; border-radius:.65rem; padding:.7rem 1rem;
+  background: linear-gradient(135deg, #4f46e5, #22d3ee);
+  color:#fff; font-weight:700; font-size:.94rem; margin-top:.5rem;
+}
+.auth-form-card .btn-df-primary:hover{ opacity:.92; color:#fff; }
+.auth-form-switch{ text-align:center; margin-top:1.5rem; font-size:.87rem; color:var(--df-muted); }
+.auth-form-switch a{ color:var(--df-indigo); font-weight:700; text-decoration:none; }
+
+@media (max-width: 991.98px){
+  .auth-visual{ display:none; }
+  .auth-form-card .mobile-logo{
+    display:flex; align-items:center; gap:.6rem; justify-content:center; margin-bottom:1.75rem;
+  }
+  .auth-form-card .mobile-logo img{ width:38px; height:38px; border-radius:10px; }
+  .auth-form-card .mobile-logo span{ font-weight:800; font-size:1.15rem; color:var(--df-text); }
+}
+
+/* ---------------------------------------------------------- */
+/* Auth pages — glassmorphism (legacy, unused, kept for ref)   */
+/* ---------------------------------------------------------- */
+.df-auth-bg{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  background: radial-gradient(circle at 15% 20%, #4338ca 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, #2563eb 0%, transparent 45%),
+              linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #1d4ed8 100%);
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.df-auth-bg::before, .df-auth-bg::after{
+  content:""; position:absolute; border-radius:50%;
+  background: rgba(255,255,255,.08); filter: blur(10px);
+}
+.df-auth-bg::before{ width:280px; height:280px; top:-80px; left:-80px; }
+.df-auth-bg::after{ width:340px; height:340px; bottom:-120px; right:-100px; background: rgba(34,211,238,.12); }
+
+.df-glass-card{
+  width:100%; max-width:420px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  padding: 2.5rem 2.25rem;
+  color:#fff;
+  position: relative; z-index: 1;
+}
+.df-glass-card .df-brand-mark{ margin: 0 auto .9rem; }
+.df-glass-card h2{ color:#fff; font-size:1.4rem; text-align:center; margin-bottom:.25rem; }
+.df-glass-card .subtitle{ color:#dfe3ff; text-align:center; font-size:.85rem; margin-bottom:1.5rem; }
+
+.df-glass-card .form-label{ color:#e5e7ff; font-size:.8rem; font-weight:600; margin-bottom:.35rem; }
+.df-glass-card .form-control,
+.df-glass-card .form-select{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.3);
+  color:#fff; border-radius:.6rem;
+}
+.df-glass-card .form-control::placeholder{ color: rgba(255,255,255,.55); }
+.df-glass-card .form-control:focus,
+.df-glass-card .form-select:focus{
+  background: rgba(255,255,255,.18);
+  border-color:#a5b4fc; color:#fff; box-shadow: 0 0 0 .2rem rgba(165,180,252,.25);
+}
+.df-glass-card .form-select option{ color:#1e1b4b; }
+
+.df-btn-glass{
+  width:100%; border:none; border-radius:.65rem; padding:.65rem 1rem;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+  color:#fff; font-weight:700; font-size:.92rem;
+  margin-top:.5rem;
+}
+.df-btn-glass:hover{ opacity:.92; color:#fff; }
+
+.df-auth-switch{ text-align:center; margin-top:1.25rem; font-size:.85rem; color:#dfe3ff; }
+.df-auth-switch a{ color:#fff; font-weight:700; text-decoration:underline; }
+
+/* ---------------------------------------------------------- */
+/* Chart panels                                                 */
+/* ---------------------------------------------------------- */
+.df-chart-card{ background:#fff; border:1px solid var(--df-border); border-radius:1rem; padding:1.5rem; height:100%; }
+.df-chart-card canvas{ max-height:260px; }
+
+/* ---------------------------------------------------------- */
+/* Utility                                                       */
+/* ---------------------------------------------------------- */
+.df-muted{ color: var(--df-muted); }
+.df-fw-700{ font-weight:700; }
+.df-section-title{ font-weight:800; font-size:1.4rem; margin-bottom:.15rem; }
+.df-section-subtitle{ color: var(--df-muted); margin-bottom:1.5rem; font-size:.92rem; }
+
+@media (max-width: 991.98px){
+  .df-content{ padding: 1.1rem; }
+}

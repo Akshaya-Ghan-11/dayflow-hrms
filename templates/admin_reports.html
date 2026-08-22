@@ -1,0 +1,67 @@
+@app.route("/admin/reports")
+@login_required
+@admin_required
+def admin_reports():
+    cursor.execute("SELECT COUNT(*) AS c FROM users WHERE role='Employee'")
+    total_employees = cursor.fetchone()["c"]
+
+    cursor.execute("SELECT COUNT(*) AS c FROM attendance WHERE date=%s AND status='Present'", (date.today(),))
+    today_present = cursor.fetchone()["c"]
+
+    cursor.execute("SELECT COUNT(*) AS c FROM leave_requests WHERE status='Pending'")
+    pending_leaves = cursor.fetchone()["c"]
+
+    cursor.execute("SELECT COUNT(*) AS c FROM leave_requests WHERE status='Approved'")
+    approved_leaves = cursor.fetchone()["c"]
+
+    cursor.execute("SELECT COALESCE(SUM(total_salary),0) AS s FROM payroll")
+    payroll_sum = cursor.fetchone()["s"] or 0
+
+    # ---- Chart 1: attendance trend, last 7 days ----
+    week_start = date.today() - timedelta(days=6)
+    cursor.execute("""
+        SELECT date, COUNT(*) AS c FROM attendance
+        WHERE status='Present' AND date >= %s
+        GROUP BY date
+    """, (week_start,))
+    trend_map = {row["date"]: row["c"] for row in cursor.fetchall()}
+
+    trend_labels, trend_data = [], []
+    for i in range(6, -1, -1):
+        d = date.today() - timedelta(days=i)
+        trend_labels.append(d.strftime("%a"))
+        trend_data.append(trend_map.get(d, 0))
+
+    # ---- Chart 2: leave type breakdown ----
+    cursor.execute("SELECT leave_type, COUNT(*) AS c FROM leave_requests GROUP BY leave_type")
+    type_rows = cursor.fetchall()
+    leave_type_labels = [row["leave_type"] for row in type_rows]
+    leave_type_data = [row["c"] for row in type_rows]
+
+    # ---- Chart 3: payroll distribution (top 8 employees) ----
+    cursor.execute("""
+        SELECT u.full_name, COALESCE(p.total_salary,0) AS total_salary
+        FROM users u
+        LEFT JOIN payroll p ON u.employee_id = p.employee_id
+        WHERE u.role='Employee'
+        ORDER BY total_salary DESC
+        LIMIT 8
+    """)
+    payroll_rows = cursor.fetchall()
+    payroll_labels = [row["full_name"] for row in payroll_rows]
+    payroll_data = [float(row["total_salary"] or 0) for row in payroll_rows]
+
+    return render_template(
+        "admin_reports.html",
+        total_employees=total_employees,
+        today_present=today_present,
+        pending_leaves=pending_leaves,
+        approved_leaves=approved_leaves,
+        payroll_sum=payroll_sum,
+        trend_labels=trend_labels,
+        trend_data=trend_data,
+        leave_type_labels=leave_type_labels,
+        leave_type_data=leave_type_data,
+        payroll_labels=payroll_labels,
+        payroll_data=payroll_data,
+    )

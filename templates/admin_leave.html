@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Leave Approvals{% endblock %}
+{% block page_title %}Leave Approvals{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard') }}" class="df-muted small d-inline-block mb-2"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<h1 class="df-section-title">Leave Approvals</h1>
+
+<div class="btn-group btn-group-sm mb-3">
+  <a href="{{ url_for('admin_leave', status='Pending') }}" class="btn {{ 'btn-primary' if status_filter=='Pending' else 'btn-outline-secondary' }}">Pending</a>
+  <a href="{{ url_for('admin_leave', status='Approved') }}" class="btn {{ 'btn-primary' if status_filter=='Approved' else 'btn-outline-secondary' }}">Approved</a>
+  <a href="{{ url_for('admin_leave', status='Rejected') }}" class="btn {{ 'btn-primary' if status_filter=='Rejected' else 'btn-outline-secondary' }}">Rejected</a>
+</div>
+
+<div class="df-card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Remarks</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          {% for lv in all_leaves %}
+          <tr>
+            <td>{{ lv.full_name }}</td>
+            <td>{{ lv.leave_type }}</td>
+            <td>{{ lv.start_date }}</td>
+            <td>{{ lv.end_date }}</td>
+            <td class="df-muted small">{{ lv.remarks or '—' }}</td>
+            <td>
+              <span class="badge-soft badge-soft-{{ 'success' if lv.status=='Approved' else 'danger' if lv.status=='Rejected' else 'warning' }}">
+                {{ lv.status }}
+              </span>
+            </td>
+            <td>
+              {% if lv.status == 'Pending' %}
+              <form method="POST" action="{{ url_for('leave_decision', leave_id=lv.leave_id) }}" class="d-flex gap-2">
+                <input type="text" name="comment" class="form-control form-control-sm" placeholder="Comment (optional)">
+                <button type="submit" name="decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
+                <button type="submit" name="decision" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
+              </form>
+              {% else %}
+              <span class="df-muted small">{{ lv.admin_comment or '—' }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="text-center df-muted py-4">No requests in this category.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

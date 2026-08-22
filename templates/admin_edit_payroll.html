@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Edit Payroll{% endblock %}
+{% block page_title %}Edit Payroll{% endblock %}
+{% block content %}
+<a href="{{ url_for('admin_payroll') }}" class="df-muted small d-inline-block mb-2"><i class="bi bi-arrow-left"></i> Back to Payroll</a>
+<h1 class="df-section-title">Edit Payroll — {{ emp.full_name }}</h1>
+
+<div class="df-card" style="max-width:480px;">
+  <div class="card-body">
+    <form method="POST" action="{{ url_for('admin_edit_payroll', emp_id=emp.employee_id) }}">
+      <label class="form-label">Basic Salary (₹)</label>
+      <input type="number" step="0.01" name="basic_salary" class="form-control" value="{{ payroll.basic_salary or 0 }}">
+
+      <label class="form-label mt-3">Bonus (₹)</label>
+      <input type="number" step="0.01" name="bonus" class="form-control" value="{{ payroll.bonus or 0 }}">
+
+      <div class="d-flex justify-content-between pt-3 mt-2 border-top">
+        <span class="df-fw-700">Current Total</span>
+        <span class="df-fw-700 text-primary">₹{{ '%.2f'|format(payroll.total_salary or 0) }}</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3 w-100">Save Payroll</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

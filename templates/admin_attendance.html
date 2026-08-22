@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Attendance Records{% endblock %}
+{% block page_title %}Attendance Records{% endblock %}
+{% block content %}
+<a href="{{ url_for('dashboard') }}" class="df-muted small d-inline-block mb-2"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<h1 class="df-section-title">Attendance Records</h1>
+
+<div class="df-card">
+  <div class="card-body">
+    <form method="GET" action="{{ url_for('admin_attendance') }}" class="mb-3" style="max-width:220px;">
+      <label class="form-label">Date</label>
+      <input type="date" name="date" class="form-control" value="{{ selected_date }}" onchange="this.form.submit()">
+    </form>
+
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>Employee</th><th>Check In</th><th>Check Out</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for r in records %}
+          <tr>
+            <td>{{ r.full_name }} <span class="df-muted small">(#{{ r.emp_id }})</span></td>
+            <td>{{ r.check_in or '—' }}</td>
+            <td>{{ r.check_out or '—' }}</td>
+            <td>
+              <span class="badge-soft badge-soft-{{ 'success' if r.status=='Present' else 'danger' if r.status=='Absent' else 'info' if r.status=='Leave' else 'warning' }}">
+                {{ r.status }}
+              </span>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" class="text-center df-muted py-4">No attendance records for this date.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

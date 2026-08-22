@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Sign In{% endblock %}
+{% block content_unauth %}
+<div class="auth-split">
+
+  <!-- Left: visual panel -->
+  <div class="auth-visual">
+    <div class="auth-visual-inner">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Pulse HR" class="auth-visual-logo">
+      <h2>The heartbeat of your workplace.</h2>
+      <p class="lead">Pulse HR brings attendance, leave, and payroll together in one live view — so you always know how your organization is doing, in real time.</p>
+      <div class="auth-visual-badges">
+        <span class="auth-visual-badge"><i class="bi bi-clock-history"></i> Attendance</span>
+        <span class="auth-visual-badge"><i class="bi bi-calendar2-week"></i> Leave</span>
+        <span class="auth-visual-badge"><i class="bi bi-cash-coin"></i> Payroll</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-form-card">
+      <div class="mobile-logo">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Pulse HR">
+        <span>Pulse HR</span>
+      </div>
+
+      <h2>Welcome back</h2>
+      <p class="subtitle-dark">Sign in to your Pulse HR account</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ 'danger' if category=='danger' else category }} alert-dismissible fade show py-2 px-3 small" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" placeholder="you@company.com" required autofocus>
+
+        <label class="form-label mt-3">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-df-primary">Sign In</button>
+      </form>
+
+      <p class="auth-form-switch">Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

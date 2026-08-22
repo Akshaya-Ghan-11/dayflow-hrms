@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}HR Dashboard{% endblock %}
+{% block content %}
+<h1 class="df-section-title">HR Dashboard</h1>
+<p class="df-section-subtitle">Overview of your organization.</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="df-stat-card">
+      <div class="df-stat-icon" style="background:rgba(79,70,229,.1); color:#4f46e5;"><i class="bi bi-people-fill"></i></div>
+      <div>
+        <div class="df-stat-value">{{ total_employees }}</div>
+        <div class="df-stat-label">Total Employees</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="df-stat-card">
+      <div class="df-stat-icon" style="background:rgba(15,157,88,.1); color:#0f9d58;"><i class="bi bi-clock-history"></i></div>
+      <div>
+        <div class="df-stat-value">{{ today_attendance }}</div>
+        <div class="df-stat-label">Marked Today</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="df-stat-card">
+      <div class="df-stat-icon" style="background:rgba(180,83,9,.1); color:#b45309;"><i class="bi bi-hourglass-split"></i></div>
+      <div>
+        <div class="df-stat-value">{{ pending_leaves }}</div>
+        <div class="df-stat-label">Pending Leave Requests</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('admin_attendance') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-clock-history"></i></div>
+      <div class="df-quick-title">Attendance Records</div>
+      <div class="df-quick-desc">View all employee attendance</div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('admin_leave') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-check2-square"></i></div>
+      <div class="df-quick-title">Leave Approvals</div>
+      <div class="df-quick-desc">Approve or reject requests</div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('admin_payroll') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-cash-coin"></i></div>
+      <div class="df-quick-title">Payroll</div>
+      <div class="df-quick-desc">Manage salary structures</div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('admin_reports') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-bar-chart-fill"></i></div>
+      <div class="df-quick-title">Reports</div>
+      <div class="df-quick-desc">Analytics & summaries</div>
+    </a>
+  </div>
+</div>
+
+<div class="df-card">
+  <div class="card-body">
+    <h5 class="mb-3">Employees</h5>
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th></th></tr></thead>
+        <tbody>
+          {% for emp in employees %}
+          <tr>
+            <td>#{{ emp.employee_id }}</td>
+            <td>{{ emp.full_name }}</td>
+            <td>{{ emp.email }}</td>
+            <td>{{ emp.phone or '—' }}</td>
+            <td class="text-end"><a href="{{ url_for('admin_edit_employee', emp_id=emp.employee_id) }}" class="btn btn-sm btn-outline-primary">Manage</a></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="text-center df-muted py-4">No employees yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

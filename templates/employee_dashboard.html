@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="df-section-title">Hi, {{ current_user.full_name.split(' ')[0] }} 👋</h1>
+<p class="df-section-subtitle">Here's what's happening today.</p>
+
+<!-- Today's progress -->
+<div class="df-card mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-baseline mb-2">
+      <h5 class="mb-0"><i class="bi bi-sun-fill text-warning"></i> Today's Progress</h5>
+      <span class="df-fw-700 fs-5">{{ hours_worked|default(0)|round(1) }} hrs</span>
+    </div>
+    <div class="df-progress progress">
+      <div class="progress-bar" role="progressbar" style="width: {{ progress_pct|default(0) }}%;"></div>
+    </div>
+    <div class="d-flex justify-content-between mt-2">
+      <span class="df-muted small">0h</span>
+      <span class="df-muted small">9h target</span>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('profile') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-person-fill"></i></div>
+      <div class="df-quick-title">Profile</div>
+      <div class="df-quick-desc">View & edit your details</div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('attendance') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-clock-history"></i></div>
+      <div class="df-quick-title">Attendance</div>
+      <div class="df-quick-desc">
+        {% if today_att and today_att.check_in and not today_att.check_out %}Checked in
+        {% elif today_att and today_att.check_out %}Completed today
+        {% else %}Not checked in{% endif %}
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('leave') }}" class="df-quick-card">
+      <div class="df-quick-icon"><i class="bi bi-calendar2-week-fill"></i></div>
+      <div class="df-quick-title">Leave Requests</div>
+      <div class="df-quick-desc">Apply & track status</div>
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('logout') }}" class="df-quick-card danger">
+      <div class="df-quick-icon"><i class="bi bi-box-arrow-right"></i></div>
+      <div class="df-quick-title">Logout</div>
+      <div class="df-quick-desc">End your session</div>
+    </a>
+  </div>
+</div>
+
+<div class="df-card">
+  <div class="card-body">
+    <h5 class="mb-3">Recent Leave Activity</h5>
+    {% if recent_leaves %}
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>Type</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for lv in recent_leaves %}
+          <tr>
+            <td>{{ lv.leave_type }}</td>
+            <td>{{ lv.start_date }}</td>
+            <td>{{ lv.end_date }}</td>
+            <td>
+              <span class="badge-soft badge-soft-{{ 'success' if lv.status=='Approved' else 'danger' if lv.status=='Rejected' else 'warning' }}">
+                {{ lv.status }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="df-muted mb-0">No leave requests yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+{% block page_title %}Attendance{% endblock %}
+{% block content %}
+<h1 class="df-section-title">My Attendance</h1>
+<p class="df-section-subtitle">Track your daily check-in and check-out.</p>
+
+<div class="df-card mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-baseline mb-2 flex-wrap gap-2">
+      <h5 class="mb-0"><i class="bi bi-sun-fill text-warning"></i> Today's Progress</h5>
+      <span class="df-fw-700 fs-5">{{ hours_worked|default(0)|round(1) }} hrs</span>
+    </div>
+    <div class="df-progress progress mb-3">
+      <div class="progress-bar" role="progressbar" style="width: {{ progress_pct|default(0) }}%;"></div>
+    </div>
+
+    <div class="row align-items-center g-3">
+      <div class="col-md-6">
+        {% if today_att and today_att.check_in %}
+          <div class="small df-muted">Checked in at <strong class="text-dark">{{ today_att.check_in }}</strong></div>
+        {% endif %}
+        {% if today_att and today_att.check_out %}
+          <div class="small df-muted">Checked out at <strong class="text-dark">{{ today_att.check_out }}</strong></div>
+        {% endif %}
+        {% if not today_att or not today_att.check_in %}
+          <div class="small df-muted">You haven't checked in today.</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6 d-flex gap-2 justify-content-md-end">
+        <form method="POST" action="{{ url_for('checkin') }}">
+          <button type="submit" class="btn btn-primary" {% if today_att and today_att.check_in %}disabled{% endif %}>
+            <i class="bi bi-box-arrow-in-right"></i> Check In
+          </button>
+        </form>
+        <form method="POST" action="{{ url_for('checkout') }}">
+          <button type="submit" class="btn btn-outline-primary" {% if not today_att or not today_att.check_in or today_att.check_out %}disabled{% endif %}>
+            <i class="bi bi-box-arrow-right"></i> Check Out
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% if week_strip %}
+    <div class="df-week-strip">
+      {% for d in week_strip %}
+      <div class="df-week-day st-{{ (d.status or '')|lower|replace(' ', '-') }}">
+        <div class="dot"></div>{{ d.label }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="df-card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+      <h5 class="mb-0">History</h5>
+      <div class="btn-group btn-group-sm">
+        <a href="{{ url_for('attendance', view='daily') }}" class="btn {{ 'btn-primary' if view=='daily' else 'btn-outline-secondary' }}">Today</a>
+        <a href="{{ url_for('attendance', view='weekly') }}" class="btn {{ 'btn-primary' if view=='weekly' else 'btn-outline-secondary' }}">Last 7 Days</a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table df-table mb-0">
+        <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for r in records %}
+          <tr>
+            <td>{{ r.date }}</td>
+            <td>{{ r.check_in or '—' }}</td>
+            <td>{{ r.check_out or '—' }}</td>
+            <td>
+              <span class="badge-soft badge-soft-{{ 'success' if r.status=='Present' else 'danger' if r.status=='Absent' else 'info' if r.status=='Leave' else 'warning' }}">
+                {{ r.status }}
+              </span>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" class="text-center df-muted py-4">No records found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Payroll{% endblock %}
+{% block page_title %}Payroll{% endblock %}
+{% block content %}
+<h1 class="df-section-title">My Payroll</h1>
+<p class="df-section-subtitle"><i class="bi bi-lock-fill"></i> Read-only. Contact HR for changes.</p>
+
+<div class="df-card" style="max-width:480px;">
+  <div class="card-body">
+    <div class="d-flex justify-content-between py-2 border-bottom"><span class="df-muted">Basic Salary</span><strong>₹{{ '%.2f'|format(payroll.basic_salary or 0) }}</strong></div>
+    <div class="d-flex justify-content-between py-2 border-bottom"><span class="df-muted">Bonus</span><strong>₹{{ '%.2f'|format(payroll.bonus or 0) }}</strong></div>
+    <div class="d-flex justify-content-between pt-3">
+      <span class="df-fw-700">Total Salary</span>
+      <span class="df-fw-700 fs-5 text-primary">₹{{ '%.2f'|format(payroll.total_salary or 0) }}</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

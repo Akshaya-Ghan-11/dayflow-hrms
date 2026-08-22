@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+{% block content %}
+<h1 class="df-section-title">My Profile</h1>
+<p class="df-section-subtitle">Manage your personal details.</p>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="df-card h-100">
+      <div class="card-body">
+        <h5 class="mb-3">Personal Details</h5>
+        <form method="POST" action="{{ url_for('profile') }}">
+          <label class="form-label">Phone</label>
+          <input type="text" name="phone" class="form-control" value="{{ user.phone or '' }}" placeholder="+91 98765 43210">
+
+          <label class="form-label mt-3">Address</label>
+          <input type="text" name="address" class="form-control" value="{{ user.address or '' }}" placeholder="Street, City, State">
+
+          <p class="df-muted small mt-3 mb-0"><i class="bi bi-info-circle"></i> Your name can only be updated by HR/Admin.</p>
+          <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="df-card h-100">
+      <div class="card-body">
+        <h5 class="mb-3">Account Details</h5>
+        <div class="d-flex justify-content-between py-2 border-bottom"><span class="df-muted">Employee ID</span><strong>#{{ user.employee_id }}</strong></div>
+        <div class="d-flex justify-content-between py-2 border-bottom"><span class="df-muted">Name</span><strong>{{ user.full_name }}</strong></div>
+        <div class="d-flex justify-content-between py-2 border-bottom"><span class="df-muted">Email</span><strong>{{ user.email }}</strong></div>
+        <div class="d-flex justify-content-between py-2"><span class="df-muted">Role</span><strong>{{ user.role }}</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
